@@ -10,6 +10,7 @@
         android:text="Bienvnue sur ton dash board man"
         android:gravity="center"
         android:textSize="25dp"
+        android:id="@+id/viewRPM"
         />
 
 </FrameLayout>
