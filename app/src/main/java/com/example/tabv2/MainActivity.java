@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +18,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     Handler mHandler;
+    int myRefreshViewPeriod = 1000;
     int compteur=0;
+
+    EditText editRPM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,28 +50,35 @@ public class MainActivity extends AppCompatActivity {
         //on link le tabLayout au viewpager
         tabLayout.setupWithViewPager(viewPager);
 
-
         //on lance le "timer"
         useHandler();
+
+        //link edit rpm to send to fragment (invisible)
+        editRPM = (EditText)findViewById(R.id.setRPM);
 
     }
 
     public void useHandler() {
         mHandler = new Handler();
-        mHandler.postDelayed(mRunnable, 1000);
+        mHandler.postDelayed(mRunnable, myRefreshViewPeriod);
     }
 
     private Runnable mRunnable = new Runnable() {
 
         @Override
         public void run() {
-            Log.i("Handlers", "Calls"+compteur);
-            //myDash.setRPM(compteur);
 
+            Log.i("Handlers", "Calls"+compteur);
+            editRPM.setText( ""+compteur );
             compteur++;
 
+            // Refresh View of all the fragment
+            viewPagerAdapter.notifyDataSetChanged();
+
             /** Do something **/
-            mHandler.postDelayed(mRunnable, 1000);
+            mHandler.postDelayed(mRunnable, myRefreshViewPeriod);
         }
     };
+
+
 }
